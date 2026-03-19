@@ -1,16 +1,15 @@
 local fileName = "graficModule"
 
 if not enum then _G.enum = {} end
-if not enum.UiPosition then enum.UiPosition = { middle = "center" } end
+if not enum.UiPosition then enum.UiPosition = { middle = "center", center = "center" } end
 
 _G.grafic = {
 
     screenSize = { 26, 20 },
 
-    drawString = function(String, x, y, backgroundColor)
+    drawString = function(String, x, y, textColor, backgroundColor)
         log.add(enum.logType.debug,
-            "function drawString called with arguments {String=" ..
-            String .. ", x=" .. x .. ", y=" .. y .. ", backgroundColor=" .. (backgroundColor or 'nil') .. "}")
+            "function drawString called with arguments {String=" .. String .. ", x=" .. x .. ", y=" .. y .. ", textColor=" .. (textColor or 'nil') .. ", backgroundColor=" .. (backgroundColor or 'nil') .. "}")
 
         if not String then
             log.add(enum.logType.error, "Param #1 String is nil", fileName, false)
@@ -25,9 +24,12 @@ _G.grafic = {
             log.add(enum.logType.error, "Param #2 x is nil", fileName, false)
             return false, "Param #2 x is nil"
         end
-        if (type(x) ~= "number" and type(x) ~= "string") and x ~= "center" then
+        if (type(x) ~= "number" and type(x) ~= "string") and x ~= enum.UiPosition.center then
             log.add(enum.logType.error, "Param #2 x isn't a number or a string", fileName, false)
             return false, "Param #2 x isn't a number or a string"
+        end
+        if x == enum.UiPosition.center then
+            x = math.floor(grafic.screenSize[1] / 2 - string.len(String) / 2)
         end
         if not (x > 0 and x <= grafic.screenSize[1]) then
             log.add(enum.logType.error, "Param #2 x isn't between 0 and " .. grafic.screenSize[1], fileName, false)
@@ -42,15 +44,29 @@ _G.grafic = {
             log.add(enum.logType.error, "Param #3 y isn't a number or a string", fileName, false)
             return false, "Param #3 y isn't a number or a string"
         end
+        if y == enum.UiPosition.center then
+            y = math.floor(grafic.screenSize[2] / 2 + 1)
+        end
         if not (y > 0 and y <= grafic.screenSize[2]) then
             log.add(enum.logType.error, "Param #3 y isn't between 0 and " .. grafic.screenSize[2], fileName, false)
             return false, "Param #3 y isn't between 0 and " .. grafic.screenSize[2]
         end
 
         term.setCursorPos(tonumber(x), tonumber(y))
+        if not textColor then textColor = colors.white end
+        term.setTextColor(textColor)
         if backgroundColor then term.setBackgroundColor(backgroundColor) end
         term.write(tostring(String))
 
         return true
+    end,
+
+    createButton = function (String, x, y, textColor, backgroundColor)
+        log.add(enum.logType.debug, "function createButton called with arguments {String=" .. String .. ", x=" .. x .. ", y=" .. y .. ", textColor=" .. (textColor or 'nil') .. ", backgroundColor=" .. (backgroundColor or 'nil') .. "}")
+        local success, err = grafic.drawString(String, x, y, textColor, backgroundColor)
+        if not success then
+            log.add(enum.logType.error, "Error while creating the Ui button : "..(err or "unknown"))
+        end
+        return false
     end
 }

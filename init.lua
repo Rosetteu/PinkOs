@@ -29,7 +29,7 @@ require("PinkOs/graficModule")
 
 drawFrame()
 
-local success, err = grafic.drawString("Unlock", 1, 3)
+local success, err = grafic.createButton(" Unlock ", enum.UiPosition.center, enum.UiPosition.center, colors.black, colors.pink)
 if not success then log.add(enum.logType.error, err) end
 
 

@@ -17,7 +17,7 @@ local logPath = "./logs/" .. timestamp .. ".log"
 local last = "./logs/last.log"
 
 local updateLast = function()
-    writeFile(last,readFile(logPath))
+    writeFile(last, readFile(logPath))
 end
 
 log.add = function(lType, message, fileName, forceShutdown)
@@ -45,15 +45,31 @@ log.add = function(lType, message, fileName, forceShutdown)
         term.setTextColour(current)
     end
 
+    if lType.level == 1 then
+        local current = term.getTextColor()
+        term.setTextColour(colors.red)
+        print(message)
+        term.setTextColour(current)
+    end
+
     if forceShutdown and lType.level > 1 then
         local shutdownMsg = timeStr .. " - SYSTEM : [" .. string.upper(lType.name) .. "] | Computer shutdown."
         addLineToFile(logPath, shutdownMsg)
         if debugChannel and modem then modem.transmit(debugChannel, 0, shutdownMsg) end
 
         updateLast()
-
         sleep(0.5)
-        os.shutdown()
+
+        term.clear()
+        term.setCursorPos(1,1)
+        term.setTextColor(colors.purple)
+        print("critical error. Contact @rosetteu on Discord")
+        print("")
+        print("Error :")
+        term.write(message)
+        while true do
+            os.pullEvent()
+        end
     end
     updateLast()
 end
