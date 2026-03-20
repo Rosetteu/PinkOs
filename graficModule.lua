@@ -5,11 +5,18 @@ if not enum.UiPosition then enum.UiPosition = { middle = "center", center = "cen
 
 _G.grafic = {
 
+    buttons = {},
+
     screenSize = { 26, 20 },
 
     drawString = function(String, x, y, textColor, backgroundColor)
         log.add(enum.logType.debug,
-            "function drawString called with arguments {String=" .. String .. ", x=" .. x .. ", y=" .. y .. ", textColor=" .. (textColor or 'nil') .. ", backgroundColor=" .. (backgroundColor or 'nil') .. "}")
+            "function drawString called with arguments {String=\"" ..
+            String ..
+            "\", x=" ..
+            x ..
+            ", y=" ..
+            y .. ", textColor=" .. (textColor or 'nil') .. ", backgroundColor=" .. (backgroundColor or 'nil') .. "}")
 
         if not String then
             log.add(enum.logType.error, "Param #1 String is nil", fileName, false)
@@ -61,12 +68,62 @@ _G.grafic = {
         return true
     end,
 
-    createButton = function (String, x, y, textColor, backgroundColor)
-        log.add(enum.logType.debug, "function createButton called with arguments {String=" .. String .. ", x=" .. x .. ", y=" .. y .. ", textColor=" .. (textColor or 'nil') .. ", backgroundColor=" .. (backgroundColor or 'nil') .. "}")
+    createButton = function(Function, id, String, x, y, textColor, backgroundColor, oneUse)
+        log.add(enum.logType.debug,
+            "function createButton called with arguments {function, id=\"" ..
+            id ..
+            "\" String=\"" ..
+            String ..
+            "\", x=" ..
+            x ..
+            ", y=" ..
+            y .. ", textColor=" .. (textColor or 'nil') .. ", backgroundColor=" .. (backgroundColor or 'nil') .. "}")
+        if not id then
+            log.add(enum.logType.error, "Param #2 id is nil, string or int expexted")
+            return false, "Param #2 id is nil, string or int expexted"
+        end
+        if type(id) ~= "number" and type(id) ~= "string" then
+            log.add(enum.logType.error, "Param #2 id isn't a string or a number")
+            return false, "Param #2 id isn't a string or a number"
+        end
+
+        if x == enum.UiPosition.center then
+            x = math.floor(grafic.screenSize[1] / 2 - string.len(String) / 2)
+        end
+        if y == enum.UiPosition.center then
+            y = math.floor(grafic.screenSize[2] / 2 + 1)
+        end
+
         local success, err = grafic.drawString(String, x, y, textColor, backgroundColor)
         if not success then
-            log.add(enum.logType.error, "Error while creating the Ui button : "..(err or "unknown"))
+            log.add(enum.logType.error, "Error while creating the Ui button : " .. (err or "unknown"))
+            return false, "Error while creating the Ui button : " .. (err or "unknown")
         end
-        return false
+        
+        grafic.buttons[id] = {id = id, x1 = x,y1 = y, x2 = x + string.len(String), func = Function, oneUse = oneUse }
+        return true
+    end,
+
+    deletteButton = function(id)
+        log.add(enum.logType.debug, "function deletteButton called with arguments {id=\"" .. id .. "\"}")
+
+        if not id then
+            log.add(enum.logType.error, "Param #1 id is nil, string or int expexted")
+            return false, "Param #1 id is nil, string or int expexted"
+        end
+        if type(id) ~= "number" and type(id) ~= "string" then
+            log.add(enum.logType.error, "Param #1 id isn't a string or a number")
+            return false, "Param #1 id isn't a string or a number"
+        end
+
+        if not grafic.buttons[id] then
+            log.add(enum.logType.error, "No button with id " .. id .. " found")
+            return false, "No button with id " .. id .. " found"
+        end
+
+        grafic.buttons[id] = nil
+        return true
     end
+
+
 }
