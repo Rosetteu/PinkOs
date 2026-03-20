@@ -123,6 +123,13 @@ _G.grafic = {
 
         grafic.buttons[id] = nil
         return true
+    end,
+
+    clearAllButtons = 
+        log.add(enum.logType.debug, "function clearAllButtons called with arguments")
+
+        grafic.buttons = {}
+        return true
     end
 
 
