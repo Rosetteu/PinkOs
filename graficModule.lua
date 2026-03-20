@@ -1,5 +1,5 @@
 local fileName = "graficModule"
-
+ 
 if not enum then _G.enum = {} end
 if not enum.UiPosition then enum.UiPosition = { middle = "center", center = "center" } end
 
