@@ -1,7 +1,7 @@
 local log = {}
 
 local modem = peripheral.find("modem")
-local debugChannel = 0
+local debugChannel = PinkOsSettings.logChanel
 if debugChannel == 0 or not modem then
     debugChannel = false
 else
