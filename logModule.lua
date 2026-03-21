@@ -20,6 +20,21 @@ local updateLast = function()
     files.write(last, files.read(logPath))
 end
 
+local fileList = fs.list("/logs/")
+while #fileList > 5 do
+    local oldest
+    for i, value in ipairs(fileList) do
+        if value ~= "last.log" then
+            if not oldest then oldest = value end
+            if tonumber((string.gsub(value, ".log", ""))) < tonumber((string.gsub(oldest, ".log", ""))) then
+                oldest = value
+            end
+        end
+    end
+    fs.delete("/logs/" .. oldest)
+    fileList = fs.list("/logs/")
+end
+
 log.add = function(lType, message, fileName, forceShutdown)
     lType = lType or enum.logType.unknown
     message = message or "No message provided."
@@ -55,7 +70,7 @@ log.add = function(lType, message, fileName, forceShutdown)
 
         term.setBackgroundColor(colors.pink)
         term.clear()
-        term.setCursorPos(1,1)
+        term.setCursorPos(1, 1)
         term.setTextColor(colors.purple)
         print("critical error. Contact @rosetteu on Discord")
         print("")
@@ -75,7 +90,7 @@ log.clearAll = function()
             fs.delete("/logs/" .. value)
         end
     end
-    files.write("/logs/last.log","")
+    files.write("/logs/last.log", "")
     return true
 end
 

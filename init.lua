@@ -30,8 +30,8 @@ draw.lockFrame = function()
 
     local success, err = grafic.createButton(draw.mainFrame, "unlockButton",
         " Unlock ",
-        enum.UiPosition.center, enum.UiPosition.center, colors.black,
-        colors.pink, true)
+        enum.UiPosition.center, enum.UiPosition.center, PinkOsSettings.style.buttonTextColor,
+        PinkOsSettings.style.buttonColor, true)
     if not success then log.add(enum.logType.error, err) end
 end
 

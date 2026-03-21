@@ -8,10 +8,13 @@ _G.PinkOsSettings = {
         headerColor = colors.magenta,
         headerTextColor = colors.white,
 
-        backgroundColor = colors.gray,
-        backgroundTextColor = colors.white,
+        backgroundColor = colors.white,
+        backgroundTextColor = colors.black,
 
-        divColor = colors.magenta,
-        divTextColor = colors.white
+        divColor = colors.cyan,
+        divTextColor = colors.white,
+
+        buttonColor = colors.magenta,
+        buttonTextColor = colors.white
     }
 }
