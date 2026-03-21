@@ -17,7 +17,7 @@ local logPath = "./logs/" .. timestamp .. ".log"
 local last = "./logs/last.log"
 
 local updateLast = function()
-    writeFile(last, readFile(logPath))
+    files.write(last, files.read(logPath))
 end
 
 log.add = function(lType, message, fileName, forceShutdown)
@@ -36,14 +36,7 @@ log.add = function(lType, message, fileName, forceShutdown)
         modem.transmit(debugChannel, 0, line)
     end
 
-    addLineToFile(logPath, line)
-
-    if lType.level == 1 then
-        local current = term.getTextColor()
-        term.setTextColour(colors.red)
-        print(message)
-        term.setTextColour(current)
-    end
+    files.addLine(logPath, line)
 
     if lType.level == 1 then
         local current = term.getTextColor()
@@ -54,12 +47,13 @@ log.add = function(lType, message, fileName, forceShutdown)
 
     if forceShutdown and lType.level > 1 then
         local shutdownMsg = timeStr .. " - SYSTEM : [" .. string.upper(lType.name) .. "] | Computer shutdown."
-        addLineToFile(logPath, shutdownMsg)
+        files.addLine(logPath, shutdownMsg)
         if debugChannel and modem then modem.transmit(debugChannel, 0, shutdownMsg) end
 
         updateLast()
         sleep(0.5)
 
+        term.setBackgroundColor(colors.pink)
         term.clear()
         term.setCursorPos(1,1)
         term.setTextColor(colors.purple)
@@ -75,11 +69,14 @@ log.add = function(lType, message, fileName, forceShutdown)
 end
 
 log.clearAll = function()
-    local files = fs.list("/logs/")
-    for i = 1, #files do
-        fs.delete("/logs")
-        return true
+    local fileList = fs.list("/logs/")
+    for i, value in ipairs(fileList) do
+        if value ~= "last.log" then
+            fs.delete("/logs/" .. value)
+        end
     end
+    files.write("/logs/last.log","")
+    return true
 end
 
 log.add(enum.logType.debug, "Logs enabled")
