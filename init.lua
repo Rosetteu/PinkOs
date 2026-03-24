@@ -22,13 +22,13 @@ draw.lockFrame = function()
     term.setBackgroundColor(PinkOsSettings.style.headerColor)
     term.setCursorPos(1, 1)
     term.clearLine()
-    grafic.drawString("PinkOs " .. PinkOsSettings.version, enum.UiPosition.center, 1,
+    graphic.drawString("PinkOs " .. PinkOsSettings.version, enum.UiPosition.center, 1,
         PinkOsSettings.style.headerTextColor)
 
     term.setCursorPos(1, 2)
     term.setBackgroundColor(PinkOsSettings.style.backgroundColor)
 
-    local success, err = grafic.createButton(draw.mainFrame, "unlockButton",
+    local success, err = graphic.createButton(draw.mainFrame, "unlockButton",
         " Unlock ",
         enum.UiPosition.center, enum.UiPosition.center, PinkOsSettings.style.buttonTextColor,
         PinkOsSettings.style.buttonColor, true)
@@ -42,28 +42,28 @@ draw.mainFrame = function()
     term.setCursorPos(1, 1)
     term.setBackgroundColor(PinkOsSettings.style.headerColor)
     term.clearLine()
-    grafic.drawString("PinkOs | Apps", enum.UiPosition.center, 1, PinkOsSettings.style.headerTextColor)
+    graphic.drawString("PinkOs | Apps", enum.UiPosition.center, 1, PinkOsSettings.style.headerTextColor)
 
     term.setCursorPos(1, 2)
     term.setBackgroundColor(PinkOsSettings.style.backgroundColor)
 
-    local success, err = grafic.createButton(
+    local success, err = graphic.createButton(
         function()
             log.add(enum.logType.debug, "Exit button pressed. Comuter shutting down")
             os.shutdown()
-        end, "exitButton", "X", grafic.screenSize[1], 1, PinkOsSettings.style.headerTextColor, PinkOsSettings.style.headerColor, true)
+        end, "exitButton", "X", graphic.screenSize[1], 1, PinkOsSettings.style.headerTextColor, PinkOsSettings.style.headerColor, true)
     if not success then
         log.add(enum.logType.error, "Error while creating exitButton :" .. (err or "Unknown"))
     end
 
-    local success, err = grafic.drawSquare(2, 3, grafic.screenSize[1] - 2, grafic.screenSize[2] - 3, colors.cyan)
+    local success, err = graphic.drawSquare(2, 3, graphic.screenSize[1] - 2, graphic.screenSize[2] - 3, colors.cyan)
     if not success then log.add(enum.logType.error, err) end
 
     for i, value in ipairs(fs.list("PinkOs/apps/")) do
         log.add(enum.logType.debug, "i=" .. i .. ", value=" .. value)
         local app = require("PinkOs/apps/" .. value .. "/init")
-        grafic.createButton(function()
-            grafic.clearAllButtons()
+        graphic.createButton(function()
+            graphic.clearAllButtons()
             app.main(draw.mainFrame())
             draw.mainFrame()
         end, value, app.name, 3, i + 3, colors.white, colors.cyan, false)
@@ -78,7 +78,7 @@ while true do
     --    log.add(enum.logType.debug, "button click : "..event..", "..mouseButton..", "..x..", "..y)
     if event == "mouse_click" and mouseButton == 1 then
         local pressedButton
-        for i, button in pairs(grafic.buttons) do
+        for i, button in pairs(graphic.buttons) do
             if not button.enabled then goto continue end
             if (tonumber(x) >= button.x1 and tonumber(x) <= button.x2) and tonumber(y) == button.y1 then
                 pressedButton = button
