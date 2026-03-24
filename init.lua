@@ -1,7 +1,7 @@
 require("PinkOs/settings")
 require("PinkOs/filesModule")
 _G.log = require("PinkOs/logModule")
-require("PinkOs/graficModule")
+require("PinkOs/graphicModule")
 
 if not pocket then
     log.add(enum.logType.warn, "PinkOs can only load on pocket computers.", "PinkOs")
