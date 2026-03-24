@@ -1,6 +1,5 @@
 local default = nil
 
-
 local app = {}
 
 app.name = "Calculator"
@@ -20,7 +19,27 @@ app.localStyle = {
     buttonTextColor = default
 }
 
-app.localDatas = {}
+app.localDatas = {
+    buttons = {
+        { input = 7,   x = 4,  y = 8 },
+        { input = 8,   x = 8,  y = 8 },
+        { input = 9,   x = 12, y = 8 },
+        { input = 4,   x = 4,  y = 10 },
+        { input = 5,   x = 8,  y = 10 },
+        { input = 6,   x = 12, y = 10 },
+        { input = 1,   x = 4,  y = 12 },
+        { input = 2,   x = 8,  y = 12 },
+        { input = 3,   x = 12, y = 12 },
+        { input = 0,   x = 8,  y = 14 },
+        { input = "<", x = 4,  y = 14 },
+        { input = "=", x = 12, y = 14 },
+        { input = "+", x = 16, y = 8 },
+        { input = "-", x = 20, y = 8 },
+        { input = "x", x = 16, y = 10 },
+        { input = "/", x = 20, y = 10 },
+
+    }
+}
 
 app.main = function()
     local calc = ""
@@ -40,118 +59,6 @@ app.main = function()
 
     graphic.drawSquare(3, 7, graphic.screenSize[1] - 5, graphic.screenSize[2] - 7,
         app.localStyle.divColor or PinkOsSettings.style.divColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "7"
-            end
-        end, "7", " 7 ", 4, 8, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "8"
-            end
-        end, "8", " 8 ", 8, 8, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "9"
-            end
-        end, "9", " 9 ", 12, 8, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "4"
-            end
-        end, "4", " 4 ", 4, 10, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "5"
-            end
-        end, "5", " 5 ", 8, 10, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "6"
-            end
-        end, "6", " 6 ", 12, 10, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "1"
-            end
-        end, "1", " 1 ", 4, 12, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "2"
-            end
-        end, "2", " 2 ", 8, 12, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "3"
-            end
-        end, "3", " 3 ", 12, 12, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "0"
-            end
-        end, "0", " 0 ", 8, 14, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            calc = string.sub(calc, 1, -2)
-            graphic.drawSquare(3, 3, graphic.screenSize[1] - 5, 3, app.localStyle.divColor or PinkOsSettings.style
-                .divColor)
-        end, "<", " < ", 4, 14, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "+"
-            end
-        end, "+", " + ", 16, 8, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "-"
-            end
-        end, "-", " - ", 20, 8, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "x"
-            end
-        end, "x", " x ", 16, 10, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            if string.len(calc) < graphic.screenSize[1] - 7 then
-                calc = calc .. "/"
-            end
-        end, "/", " / ", 20, 10, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-    graphic.createButton(function()
-            calc = calc .. "="
-        end, "=", " = ", 12, 14, app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
-        app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
-
-
     local exit = false
 
     local success, err = graphic.createButton(
@@ -162,6 +69,22 @@ app.main = function()
         PinkOsSettings.style.headerColor, true)
     if not success then
         log.add(enum.logType.error, "Error while creating exitButton :" .. (err or "Unknown"))
+    end
+
+    for _, button in ipairs(app.localDatas.buttons) do
+        local func
+        if button.input == "<" then
+            func = function()
+                calc = string.sub(calc, 1, -2)
+                graphic.drawSquare(3, 3, graphic.screenSize[1] - 5, 3,
+                    app.localStyle.divColor or PinkOsSettings.style.divColor)
+            end
+        end
+        graphic.createButton(func or function()
+                calc = calc .. button.input or log.add(enum.logType.error, "button has no input")
+            end, button.input, " " .. button.input .. " ", button.x, button.y,
+            app.localStyle.buttonTextColor or PinkOsSettings.style.buttonTextColor,
+            app.localStyle.buttonColor or PinkOsSettings.style.buttonColor)
     end
 
     while true do
